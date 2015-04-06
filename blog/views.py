@@ -535,7 +535,7 @@ def generateSchl():
     nodeCount = 0
     nodes = []
     links = []
-    allSchool = School.objects.all()
+    allSchool = School.objects.order_by('label')
     for element in allSchool:
         indexNode[element.id] = {}
         indexNode[element.id]['index'] = nodeCount
@@ -551,11 +551,12 @@ def generateSchl():
         tmpLink['source'] = indexNode[element.originUid]['index']
         tmpLink['target'] = indexNode[element.endUid]['index']  
         tmpLink['weight'] = element.weight
-        links.append(tmpLink)
+        if tmpLink['source'] <= tmpLink['target']:
+            links.append(tmpLink)
     #print Nodes 
     outputFile.write("\t\"nodes\": [\n")
     count = 1
-    nodeLen = len(nodes)
+    nodeLen = len(nodes)    
     for element in nodes:
         outputFile.write("\t\t{\n")
         outputFile.write("\t\t\t\"id\":"+str(element['id'])+",\n")
@@ -573,18 +574,18 @@ def generateSchl():
     count = 1
     linkLen = len(links)
     for element in links:
-        if element['source'] <= element['target']:
-            outputFile.write("\t\t{\n")
-            outputFile.write("\t\t\t\"source\":"+str(element['source'])+",\n")
-            outputFile.write("\t\t\t\"target\":"+str(element['target'])+",\n")
-            outputFile.write("\t\t\t\"weight\":"+str(element['weight'])+"\n")
-            if count == linkLen:
-                outputFile.write("\t\t}\n")
-            else:
-                outputFile.write("\t\t},\n")
-                count += 1
+    
+        outputFile.write("\t\t{\n")
+        outputFile.write("\t\t\t\"source\":"+str(element['source'])+",\n")
+        outputFile.write("\t\t\t\"target\":"+str(element['target'])+",\n")
+        outputFile.write("\t\t\t\"weight\":"+str(element['weight'])+"\n")
+        
+        if count == linkLen:
+            outputFile.write("\t\t}\n")
         else:
-            count += 1
+            outputFile.write("\t\t},\n")
+        count += 1
+
     outputFile.write("\t],\n")
     #end print links
 
@@ -604,11 +605,15 @@ def generateDept():
     for element in allDepartment:
         indexNode[element.id] = {}
         indexNode[element.id]['index'] = nodeCount
-        indexNode[element.id]['url'] = element.image_url
-        indexNode[element.id]['label'] = element.label
-        indexNode[element.id]['Total'] = element.Total
-        indexNode[element.id]['collaboration'] = element.collaboration
-        indexNode[element.id]['CollaMap'] = {}
+
+        tmpNode = {}
+        tmpNode['index'] = nodeCount
+        tmpNode['url'] = element.image_url
+        tmpNode['label'] = element.label
+        tmpNode['Total'] = element.Total
+        tmpNode['collaboration'] = element.collaboration
+        tmpNode['CollaMap'] = {}
+        nodes.append(tmpNode)
         nodeCount += 1
 
     allLink = DeptLink.objects.all()
@@ -617,8 +622,11 @@ def generateDept():
         tmpLink['source'] = indexNode[element.originUid]['index']
         tmpLink['target'] = indexNode[element.endUid]['index']  
         tmpLink['weight'] = element.weight
-        indexNode[element.originUid]['CollaMap'][tmpLink['target']] = tmpLink['weight']
-        links.append(tmpLink)
+        indexN = indexNode[element.originUid]['index']
+        if tmpLink['source'] != tmpLink['target']:
+            nodes[indexN]['CollaMap'][tmpLink['target']] = tmpLink['weight']
+        if tmpLink['source'] <= tmpLink['target']:
+            links.append(tmpLink)
     
 
     """
@@ -635,8 +643,7 @@ def generateDept():
     outputFile.write("\t\"nodes\": [\n")
     count = 1
     nodeLen = len(indexNode)
-    for key in indexNode:
-        element = indexNode[key]
+    for element in nodes:
         outputFile.write("\t\t{\n")
         outputFile.write("\t\t\t\"url\":\""+str(element['url'])+"\",\n")
         outputFile.write("\t\t\t\"collaboration\":"+str(element['collaboration'])+",\n")
@@ -648,10 +655,12 @@ def generateDept():
         mapLen = len(element['CollaMap'])
         for tNode in element['CollaMap']:
             wt = element['CollaMap'][tNode]
+
             if cCount == mapLen:
                 outputFile.write("\t\t\t\t\""+str(tNode)+"\":"+str(wt)+"\n")
             else:
                 outputFile.write("\t\t\t\t\""+str(tNode)+"\":"+str(wt)+",\n")
+            cCount += 1
         outputFile.write("\t\t\t}\n")
         if count == nodeLen:
             outputFile.write("\t\t}\n")
@@ -700,11 +709,14 @@ def generateLib():
     for element in allLibrary:
         indexNode[element.id] = {}
         indexNode[element.id]['index'] = nodeCount
-        indexNode[element.id]['name'] = element.name
-        indexNode[element.id]['label'] = element.label
-        indexNode[element.id]['uniqueID'] = element.uniqueID
-        indexNode[element.id]['dept'] = element.department
-        indexNode[element.id]['fullname'] = element.fullname
+        tmpNode  = {}
+        tmpNode['index'] = nodeCount
+        tmpNode['name'] = element.name
+        tmpNode['label'] = element.label
+        tmpNode['uniqueID'] = element.uniqueID
+        tmpNode['dept'] = element.department
+        tmpNode['fullname'] = element.fullname
+        nodes.append(tmpNode)
         nodeCount += 1
 
     allLink = LibLink.objects.all()
@@ -715,7 +727,7 @@ def generateLib():
         tmpLink['weight'] = element.weight
         links.append(tmpLink)
     
-    print indexNode
+
     """
     write the graph begin 
     """
@@ -730,8 +742,7 @@ def generateLib():
     outputFile.write("\t\"nodes\": [\n")
     count = 1
     nodeLen = len(indexNode)
-    for key in indexNode:
-        element = indexNode[key]
+    for element in nodes:
         outputFile.write("\t\t{\n")
         outputFile.write("\t\t\t\"name\":\""+str(element['name'])+"\",\n")
         outputFile.write("\t\t\t\"label\":\""+str(element['label'])+"\",\n")
@@ -778,29 +789,32 @@ def generateJs():
     schools = School.objects.all()
     departments = Department.objects.all()
     outputFile = file(settings.STATIC_ROOT+'blog/js/dept.js','w')
-    school = {}
+    school = []
+    schoolIndex = {}
     count = 0
     for element in schools:
-        school[element.id] = {}
-        school[element.id]['index'] = count
-        school[element.id]['label'] = element.label
-        school[element.id]['dept'] = []
+        schoolIndex[element.id] = {}
+        schoolIndex[element.id]['index'] = count
+        tmpSchool = {}
+        tmpSchool['index'] = count
+        tmpSchool['label'] = element.label
+        tmpSchool['dept'] = []
+        school.append(tmpSchool)
         count += 1
 
     for element in departments :
-        school[element.schlId]['dept'].append(element.label)
+        schoolI = schoolIndex[element.schlId]['index']
+        school[schoolI]['dept'].append(element.label)
 
     '''  print school '''
     outputFile.write("var school={\n")
-    for uid in school:
-        element = school[uid]
+    for element in school:
         outputFile.write("\t\""+element['label']+"\":"+str(element['index'])+",\n")
     outputFile.write("};\n")
 
     """" print dept """
     outputFile.write("var dept={\n")
-    for uid in school:
-        element = school[uid]
+    for element in school:
         for dept in element['dept']:
             outputFile.write("\t\""+dept+"\":"+str(element['index'])+",\n")
     outputFile.write("};\n")
@@ -808,8 +822,7 @@ def generateJs():
 
     """" print deptName """
     outputFile.write("var deptNames=[\n")
-    for uid in school:
-        element = school[uid]
+    for element in school:
         for dept in element['dept']:
             outputFile.write("\t\""+dept+"\",\n")
     outputFile.write("];\n")
@@ -818,19 +831,16 @@ def generateJs():
     """" print Index """
     outputFile.write("var deptIndex={\n")
     deptCount = 0
-    for uid in school:
-        element = school[uid]
+    for element in school:
         for dept in element['dept']:
             outputFile.write("\t\""+dept+"\":"+str(deptCount)+",\n")
             deptCount += 1
     outputFile.write("};\n")
- 
 
     """" print deptIndexS """
     outputFile.write("var deptIndexS={\n")
     
-    for uid in school:
-        element = school[uid]
+    for element in school:
         deptCount = 0
         for dept in element['dept']:
             outputFile.write("\t\""+dept+"\":"+str(deptCount)+",\n")
@@ -840,8 +850,7 @@ def generateJs():
     """print button"""
     outputFile.write("var schoolList=[")
     schCount = 1
-    for uid in school:
-        element = school[uid]
+    for element in school:
         outputFile.write("\""+element['label']+"\"")
         if not schCount == len(school):
             schCount += 1
@@ -852,18 +861,13 @@ def generateJs():
     addNum = 0
     schlLen = len(school) 
     schoolOffset = {}
-    for element in school:
-        data = school[element]
+    for data in school:
         schoolOffset[data['index']] = len(data['dept'])
 
     for i in range(len(schoolOffset)):
-        if count == schlLen:
-            outputFile.write(""+str(addNum)+"")    
-        else:
-            outputFile.write(""+str(addNum)+",")    
-            count += 1
+        outputFile.write(""+str(addNum)+",")    
         addNum += schoolOffset[i]
-    outputFile.write("];\n")
+    outputFile.write(str(addNum)+"];\n")
     outputFile.write("function getSchoolName(departmentName){    return schoolList[dept[departmentName]];}\nfunction getSchoolIndex(departmentName) {    return dept[departmentName];}")
 
     return HttpResponse("success")

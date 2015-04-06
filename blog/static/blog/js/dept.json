@@ -9,7 +9,9 @@
 			"label":"AAA",
 			"id":0,
 			"CollaMap":{
-				"1":254
+				"1":254,
+				"3":21,
+				"5":255
 			}
 		},
 		{
@@ -19,7 +21,8 @@
 			"label":"BBB",
 			"id":1,
 			"CollaMap":{
-				"0":254
+				"0":254,
+				"2":251
 			}
 		},
 		{
@@ -29,6 +32,8 @@
 			"label":"CCC",
 			"id":2,
 			"CollaMap":{
+				"1":251,
+				"4":13
 			}
 		},
 		{
@@ -38,7 +43,45 @@
 			"label":"DD",
 			"id":3,
 			"CollaMap":{
-				"3":232
+				"0":21
+			}
+		},
+		{
+			"url":"a",
+			"collaboration":15,
+			"Total":245,
+			"label":"AAC",
+			"id":4,
+			"CollaMap":{
+				"2":13
+			}
+		},
+		{
+			"url":"a",
+			"collaboration":213,
+			"Total":231,
+			"label":"AAD",
+			"id":5,
+			"CollaMap":{
+				"0":255
+			}
+		},
+		{
+			"url":"a",
+			"collaboration":12,
+			"Total":232,
+			"label":"AAE",
+			"id":6,
+			"CollaMap":{
+			}
+		},
+		{
+			"url":"a",
+			"collaboration":232,
+			"Total":122,
+			"label":"EE",
+			"id":7,
+			"CollaMap":{
 			}
 		}
 	],
@@ -52,6 +95,46 @@
 			"source":3,
 			"target":3,
 			"weight":232
+		},
+		{
+			"source":4,
+			"target":4,
+			"weight":245
+		},
+		{
+			"source":1,
+			"target":2,
+			"weight":251
+		},
+		{
+			"source":0,
+			"target":3,
+			"weight":21
+		},
+		{
+			"source":2,
+			"target":4,
+			"weight":13
+		},
+		{
+			"source":5,
+			"target":5,
+			"weight":231
+		},
+		{
+			"source":6,
+			"target":6,
+			"weight":232
+		},
+		{
+			"source":0,
+			"target":5,
+			"weight":255
+		},
+		{
+			"source":7,
+			"target":7,
+			"weight":122
 		}
 	],
 	"multigraph": false
