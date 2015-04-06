@@ -1,0 +1,58 @@
+{
+	"directed": false,
+	"graph": [],
+	"nodes": [
+		{
+			"url":"a",
+			"collaboration":123,
+			"Total":233,
+			"label":"AAA",
+			"id":0,
+			"CollaMap":{
+				"1":254
+			}
+		},
+		{
+			"url":"a",
+			"collaboration":123,
+			"Total":423,
+			"label":"BBB",
+			"id":1,
+			"CollaMap":{
+				"0":254
+			}
+		},
+		{
+			"url":"a",
+			"collaboration":123,
+			"Total":123,
+			"label":"CCC",
+			"id":2,
+			"CollaMap":{
+			}
+		},
+		{
+			"url":"a",
+			"collaboration":12,
+			"Total":232,
+			"label":"DD",
+			"id":3,
+			"CollaMap":{
+				"3":232
+			}
+		}
+	],
+	"links": [
+		{
+			"source":0,
+			"target":1,
+			"weight":254
+		},
+		{
+			"source":3,
+			"target":3,
+			"weight":232
+		}
+	],
+	"multigraph": false
+}
