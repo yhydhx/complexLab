@@ -1,0 +1,50 @@
+{
+	"directed": false,
+	"graph": [],
+	"nodes": [
+		{
+			"id":0,
+			"label":"AAAA"
+		},
+		{
+			"id":1,
+			"label":"BBBB"
+		},
+		{
+			"id":2,
+			"label":"CCCC"
+		},
+		{
+			"id":3,
+			"label":"DDDD"
+		}
+	],
+	"links": [
+		{
+			"source":0,
+			"target":0,
+			"weight":124
+		},
+		{
+			"source":1,
+			"target":1,
+			"weight":157
+		},
+		{
+			"source":0,
+			"target":1,
+			"weight":25
+		},
+		{
+			"source":2,
+			"target":2,
+			"weight":231
+		},
+		{
+			"source":3,
+			"target":3,
+			"weight":234
+		}
+	],
+	"multigraph": false
+}

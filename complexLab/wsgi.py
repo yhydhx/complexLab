@@ -7,8 +7,9 @@ For more information on this file, see
 https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "complexLab.settings")
+import os,sys
+sys.path.append('/var/www/debateSNS/complexLab')
+os.environ["DJANGO_SETTINGS_MODULE"] =  "complexLab.settings"
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

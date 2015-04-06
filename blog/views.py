@@ -77,7 +77,7 @@ def addUser(request):
 
         )
     admin.save()
-    return render(request,"dc/login.html")
+    return render(request,"blog/login.html")
  
 def changePasswd(request):
     if request.method == "POST":

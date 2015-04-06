@@ -1,0 +1,38 @@
+{
+	"directed": false,
+	"graph": [],
+	"nodes": [
+		{
+			"name":"BA",
+			"label":"BA",
+			"dept":"BBB",
+			"uniqueID":"234",
+			"fullname":"123",
+			"id":1
+		},
+		{
+			"name":"AA",
+			"label":"AA",
+			"dept":"AAA",
+			"uniqueID":"2312",
+			"fullname":"awedf",
+			"id":2
+		},
+		{
+			"name":"AB",
+			"label":"AB",
+			"dept":"AAA",
+			"uniqueID":"123",
+			"fullname":"123",
+			"id":0
+		}
+	],
+	"links": [
+		{
+			"source":0,
+			"target":2,
+			"weight":23
+		}
+	],
+	"multigraph": false
+}
