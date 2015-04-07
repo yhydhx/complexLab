@@ -725,7 +725,8 @@ def generateLib():
         tmpLink['source'] = indexNode[element.originUid]['index']
         tmpLink['target'] = indexNode[element.endUid]['index']  
         tmpLink['weight'] = element.weight
-        links.append(tmpLink)
+        if tmpLink['source'] <= tmpLink['target']:
+            links.append(tmpLink)
     
 
     """

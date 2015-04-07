@@ -4,64 +4,55 @@
 	"nodes": [
 		{
 			"id":0,
-			"label":"AAAA"
+			"label":"AAA"
 		},
 		{
 			"id":1,
-			"label":"BBBB"
+			"label":"BBB"
 		},
 		{
 			"id":2,
-			"label":"CCCC"
+			"label":"CCC"
 		},
 		{
 			"id":3,
-			"label":"DDDD"
-		},
-		{
-			"id":4,
-			"label":"EEEE"
+			"label":"UESTC"
 		}
 	],
 	"links": [
 		{
+			"source":3,
+			"target":3,
+			"weight":1234
+		},
+		{
 			"source":0,
 			"target":0,
-			"weight":124
+			"weight":234
 		},
 		{
 			"source":1,
 			"target":1,
-			"weight":157
-		},
-		{
-			"source":0,
-			"target":1,
-			"weight":25
+			"weight":234
 		},
 		{
 			"source":2,
 			"target":2,
-			"weight":231
-		},
-		{
-			"source":3,
-			"target":3,
-			"weight":234
+			"weight":34
 		},
 		{
 			"source":0,
 			"target":3,
-			"weight":58
+			"weight":23
 		},
 		{
 			"source":1,
-			"target":2,
-			"weight":546
+			"target":3,
+			"weight":324
 		},
 		{
-			"source":4,
-			"target":4,
+			"source":2,
+			"target":3,
 			"weight":23
 		}
 	],

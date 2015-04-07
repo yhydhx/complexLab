@@ -3,67 +3,106 @@
 	"graph": [],
 	"nodes": [
 		{
-			"name":"AB",
-			"label":"AB",
-			"dept":"AAA",
-			"uniqueID":"123",
-			"fullname":"123",
+			"name":"Fan Chao",
+			"label":"CL:Fan Chao",
+			"dept":"complexLab",
+			"uniqueID":"213",
+			"fullname":"",
 			"id":0
 		},
 		{
-			"name":"BA",
-			"label":"BA",
-			"dept":"BBB",
-			"uniqueID":"234",
-			"fullname":"123",
+			"name":"Huang PanHua",
+			"label":"CP:Huangpanhua",
+			"dept":"complexLab",
+			"uniqueID":"",
+			"fullname":"",
 			"id":1
 		},
 		{
-			"name":"AA",
-			"label":"AA",
-			"dept":"AAA",
-			"uniqueID":"2312",
-			"fullname":"awedf",
+			"name":"Dai Haixing",
+			"label":"CP:Daihaixing",
+			"dept":"complexLab",
+			"uniqueID":"",
+			"fullname":"",
 			"id":2
 		},
 		{
-			"name":"ABV",
+			"name":"fakeA",
 			"label":"123",
-			"dept":"AAC",
-			"uniqueID":"23",
+			"dept":"tmpA",
+			"uniqueID":"",
 			"fullname":"",
 			"id":3
 		},
 		{
-			"name":"ADD",
-			"label":"12",
-			"dept":"AAD",
-			"uniqueID":"da",
-			"fullname":"",
+			"name":"fakeB",
+			"label":"123456",
+			"dept":"tmpB",
+			"uniqueID":"456",
+			"fullname":"123",
 			"id":4
 		},
 		{
-			"name":"AEE",
-			"label":"23",
-			"dept":"AAE",
+			"name":"fakeC",
+			"label":"132",
+			"dept":"tmpC",
 			"uniqueID":"",
 			"fullname":"",
 			"id":5
 		},
 		{
-			"name":"TT",
-			"label":"Aeq",
-			"dept":"EE",
-			"uniqueID":"232",
+			"name":"Tang.",
+			"label":"dajfkl",
+			"dept":"bigData",
+			"uniqueID":"",
 			"fullname":"",
 			"id":6
+		},
+		{
+			"name":"Rong Zhihai",
+			"label":"CL:rongzhihao",
+			"dept":"complexLab",
+			"uniqueID":"",
+			"fullname":"",
+			"id":7
+		},
+		{
+			"name":"Huang junming",
+			"label":"23",
+			"dept":"complexLab",
+			"uniqueID":"",
+			"fullname":"",
+			"id":8
+		},
+		{
+			"name":"Pu Jiansu",
+			"label":"CP:pujiansu",
+			"dept":"complexLab",
+			"uniqueID":"",
+			"fullname":"",
+			"id":9
 		}
 	],
 	"links": [
 		{
 			"source":0,
+			"target":1,
+			"weight":324
+		},
+		{
+			"source":0,
 			"target":2,
-			"weight":23
+			"weight":231
+		},
+		{
+			"source":1,
+			"target":2,
+			"weight":14
+		},
+		{
+			"source":2,
+			"target":9,
+			"weight":232
 		}
 	],
 	"multigraph": false

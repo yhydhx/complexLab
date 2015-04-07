@@ -1,51 +1,42 @@
 var school={
-	"AAAA":0,
-	"BBBB":1,
-	"CCCC":2,
-	"DDDD":3,
-	"EEEE":4,
+	"UESTC":0,
+	"AAA":1,
+	"BBB":2,
+	"CCC":3,
 };
 var dept={
-	"AAA":0,
-	"BBB":0,
-	"AAD":0,
-	"AAE":0,
-	"AAC":1,
-	"CCC":2,
-	"DD":3,
-	"EE":4,
+	"complexLab":0,
+	"bigData":0,
+	"tmpA":1,
+	"YT":1,
+	"tmpB":2,
+	"tmpC":3,
 };
 var deptNames=[
-	"AAA",
-	"BBB",
-	"AAD",
-	"AAE",
-	"AAC",
-	"CCC",
-	"DD",
-	"EE",
+	"complexLab",
+	"bigData",
+	"tmpA",
+	"YT",
+	"tmpB",
+	"tmpC",
 ];
 var deptIndex={
-	"AAA":0,
-	"BBB":1,
-	"AAD":2,
-	"AAE":3,
-	"AAC":4,
-	"CCC":5,
-	"DD":6,
-	"EE":7,
+	"complexLab":0,
+	"bigData":1,
+	"tmpA":2,
+	"YT":3,
+	"tmpB":4,
+	"tmpC":5,
 };
 var deptIndexS={
-	"AAA":0,
-	"BBB":1,
-	"AAD":2,
-	"AAE":3,
-	"AAC":0,
-	"CCC":0,
-	"DD":0,
-	"EE":0,
+	"complexLab":0,
+	"bigData":1,
+	"tmpA":0,
+	"YT":1,
+	"tmpB":0,
+	"tmpC":0,
 };
-var schoolList=["AAAA","BBBB","CCCC","DDDD","EEEE"];
-var schoolOffset = [0,4,5,6,7,8];
+var schoolList=["UESTC","AAA","BBB","CCC"];
+var schoolOffset = [0,2,4,5,6];
 function getSchoolName(departmentName){    return schoolList[dept[departmentName]];}
 function getSchoolIndex(departmentName) {    return dept[departmentName];}
