@@ -3,60 +3,156 @@
 	"graph": [],
 	"nodes": [
 		{
-			"url":"a",
-			"collaboration":234,
-			"Total":1234,
-			"label":"complexLab",
+			"url":"nature",
+			"collaboration":954,
+			"Total":954,
+			"label":"2008_nature",
 			"id":0,
 			"CollaMap":{
-				"1":32
+				"1":200,
+				"4":200
 			}
 		},
 		{
-			"url":"a",
-			"collaboration":321,
-			"Total":233,
-			"label":"tmpA",
+			"url":"nature",
+			"collaboration":1090,
+			"Total":1090,
+			"label":"2009_nature",
 			"id":1,
 			"CollaMap":{
-				"0":32,
-				"2":45
+				"2":20,
+				"5":200
 			}
 		},
 		{
-			"url":"a",
-			"collaboration":321,
-			"Total":123,
-			"label":"tmpB",
+			"url":"nature",
+			"collaboration":1176,
+			"Total":1176,
+			"label":"2010_nature",
 			"id":2,
 			"CollaMap":{
-				"1":45
+				"3":200,
+				"6":100
 			}
 		},
 		{
-			"url":"a",
-			"collaboration":23,
-			"Total":432,
-			"label":"tmpC",
+			"url":"nature",
+			"collaboration":758,
+			"Total":758,
+			"label":"2007_nature",
 			"id":3,
 			"CollaMap":{
 			}
 		},
 		{
-			"url":"a",
-			"collaboration":213,
-			"Total":234,
-			"label":"bigData",
+			"url":"pnas",
+			"collaboration":1206,
+			"Total":1206,
+			"label":"2008_pnas",
 			"id":4,
 			"CollaMap":{
+				"0":200,
+				"5":20
 			}
 		},
 		{
-			"url":"a",
-			"collaboration":23,
-			"Total":43,
-			"label":"YT",
+			"url":"pnas",
+			"collaboration":1620,
+			"Total":1620,
+			"label":"2009_pnas",
 			"id":5,
+			"CollaMap":{
+				"1":200,
+				"6":200
+			}
+		},
+		{
+			"url":"pnas",
+			"collaboration":1386,
+			"Total":1386,
+			"label":"2010_pnas",
+			"id":6,
+			"CollaMap":{
+				"2":100,
+				"7":200
+			}
+		},
+		{
+			"url":"pnas",
+			"collaboration":1276,
+			"Total":1276,
+			"label":"2007_pnas",
+			"id":7,
+			"CollaMap":{
+				"10":100
+			}
+		},
+		{
+			"url":"PRL",
+			"collaboration":1476,
+			"Total":1476,
+			"label":"2008_PRL",
+			"id":8,
+			"CollaMap":{
+				"9":200
+			}
+		},
+		{
+			"url":"PRL",
+			"collaboration":1340,
+			"Total":1340,
+			"label":"2009_PRL",
+			"id":9,
+			"CollaMap":{
+				"10":20
+			}
+		},
+		{
+			"url":"PRL",
+			"collaboration":1258,
+			"Total":1258,
+			"label":"2007_PRL",
+			"id":10,
+			"CollaMap":{
+				"7":100
+			}
+		},
+		{
+			"url":"Science",
+			"collaboration":1296,
+			"Total":1296,
+			"label":"2008_Science",
+			"id":11,
+			"CollaMap":{
+				"12":20
+			}
+		},
+		{
+			"url":"Science",
+			"collaboration":1220,
+			"Total":1220,
+			"label":"2009_Science",
+			"id":12,
+			"CollaMap":{
+				"13":20
+			}
+		},
+		{
+			"url":"Science",
+			"collaboration":868,
+			"Total":868,
+			"label":"2010_Science",
+			"id":13,
+			"CollaMap":{
+				"14":20
+			}
+		},
+		{
+			"url":"Science",
+			"collaboration":612,
+			"Total":612,
+			"label":"2007_Science",
+			"id":14,
 			"CollaMap":{
 			}
 		}
@@ -64,43 +160,78 @@
 	"links": [
 		{
 			"source":0,
-			"target":0,
-			"weight":1234
+			"target":1,
+			"weight":200
 		},
 		{
 			"source":1,
-			"target":1,
-			"weight":233
+			"target":2,
+			"weight":20
 		},
 		{
 			"source":2,
-			"target":2,
-			"weight":123
-		},
-		{
-			"source":3,
 			"target":3,
-			"weight":432
-		},
-		{
-			"source":0,
-			"target":1,
-			"weight":32
+			"weight":200
 		},
 		{
 			"source":4,
-			"target":4,
-			"weight":234
+			"target":5,
+			"weight":20
 		},
 		{
 			"source":5,
-			"target":5,
-			"weight":43
+			"target":6,
+			"weight":200
+		},
+		{
+			"source":6,
+			"target":7,
+			"weight":200
+		},
+		{
+			"source":8,
+			"target":9,
+			"weight":200
+		},
+		{
+			"source":9,
+			"target":10,
+			"weight":20
+		},
+		{
+			"source":11,
+			"target":12,
+			"weight":20
+		},
+		{
+			"source":12,
+			"target":13,
+			"weight":20
+		},
+		{
+			"source":13,
+			"target":14,
+			"weight":20
+		},
+		{
+			"source":0,
+			"target":4,
+			"weight":200
 		},
 		{
 			"source":1,
-			"target":2,
-			"weight":45
+			"target":5,
+			"weight":200
+		},
+		{
+			"source":2,
+			"target":6,
+			"weight":100
+		},
+		{
+			"source":7,
+			"target":10,
+			"weight":100
 		}
 	],
 	"multigraph": false

@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
 from blog import views
-
+from django.conf import settings
 urlpatterns = patterns('',
     url(r'^login\.html$', views.login, name='login'),
     url(r'index',views.dept, name="dept"),
@@ -29,4 +29,8 @@ urlpatterns = patterns('',
     url(r'^gnetLib$', views.generateLib,name ='generateLib'),
     url(r'^gnetJs$', views.generateJs,name ='generateJs'),
     url(r'^demo$', views.demo,name ='demo'),
+    url(r'^parseData$', views.parseData,name ='parseData'),
+    (r'^img/(?P<path>.*)','django.views.static.serve',{'document_root':settings.UPLOAD_PATH}), 
+
+
 )

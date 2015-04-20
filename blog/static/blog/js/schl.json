@@ -4,56 +4,46 @@
 	"nodes": [
 		{
 			"id":0,
-			"label":"AAA"
+			"label":"2007"
 		},
 		{
 			"id":1,
-			"label":"BBB"
+			"label":"2008"
 		},
 		{
 			"id":2,
-			"label":"CCC"
+			"label":"2009"
 		},
 		{
 			"id":3,
-			"label":"UESTC"
+			"label":"2010"
 		}
 	],
 	"links": [
 		{
-			"source":3,
-			"target":3,
-			"weight":1234
-		},
-		{
 			"source":0,
-			"target":0,
-			"weight":234
-		},
-		{
-			"source":1,
 			"target":1,
-			"weight":234
+			"weight":2000
+		},
+		{
+			"source":1,
+			"target":2,
+			"weight":2000
 		},
 		{
 			"source":2,
+			"target":3,
+			"weight":2000
+		},
+		{
+			"source":0,
 			"target":2,
-			"weight":34
+			"weight":2000
 		},
 		{
 			"source":0,
 			"target":3,
-			"weight":23
-		},
-		{
-			"source":1,
-			"target":3,
-			"weight":324
-		},
-		{
-			"source":2,
-			"target":3,
-			"weight":23
+			"weight":2000
 		}
 	],
 	"multigraph": false

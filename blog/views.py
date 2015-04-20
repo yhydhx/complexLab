@@ -882,3 +882,191 @@ def generate(request):
 
 def demo(request):
     return render(request,"blog/demo.html")
+
+
+def parseData(request):
+    natureFile = settings.STATIC_ROOT+"countrys/Nature.txt"
+    pnasFile = settings.STATIC_ROOT+"countrys/Pnas.txt"
+    PRLFile = settings.STATIC_ROOT+"countrys/PRL.txt"
+    ScienceFile = settings.STATIC_ROOT+"countrys/Science.txt"
+
+    
+
+    schoolCollection = {}
+    for i in range(4):
+        school = School(
+            label = str(i+2007),
+            weight = 200,
+            uploadTime = datetime.datetime.now(),
+            uploadUser = request.session['username']
+        )
+        school.save()
+        schoolCollection[str(i+2007)] =school.id
+
+    print schoolCollection
+    saveNodesAndLinks(natureFile,'nature',schoolCollection)
+    saveNodesAndLinks(pnasFile,'pnas',schoolCollection)    
+    saveNodesAndLinks(PRLFile,'PRL',schoolCollection)
+    saveNodesAndLinks(ScienceFile,'Science',schoolCollection)
+    return HttpResponse("uploadSuccess!")
+
+def saveNodesAndLinks(fileName,journalName,schoolCollection):
+    Connection = {}
+    sumPaperNum = {}
+    sumCoPaperNum = {}
+    countrySum = {}
+
+    for element in file(fileName):
+        tmpCountryList = {}
+        Info = element.strip().split("\t")
+        countryName = Info[0]
+        year = int(Info[1])
+        if year <= 2006 or year >=2011:
+            continue
+        year = str(year)
+        if not Connection.has_key(year):
+            Connection[year] = {}
+
+        if not countrySum.has_key(year):
+            countrySum[year] = {}
+
+        countries = countryName.split("@")
+        for eachCountry in countries:
+            if eachCountry != "":
+                if tmpCountryList.has_key(eachCountry):
+                    tmpCountryList[eachCountry] += 1
+                else:
+                    tmpCountryList[eachCountry] = 1
+
+        
+
+        if len(tmpCountryList) != 1:
+            if sumCoPaperNum.has_key(year):
+                sumCoPaperNum[year] += 1
+            else:
+                sumCoPaperNum[year] = 1.0
+               
+            tmpSavedList = []
+            #print tmpCountryList
+            for firstCountry in tmpCountryList:
+                tmpSavedList.append(firstCountry)
+                for secondCountry in tmpCountryList:
+                    #time.sleep(10)
+                    #print secondCountry,secondCountry in tmpSavedList
+
+                    if secondCountry in tmpSavedList:
+                        continue
+                    else:
+
+                        #print firstCountry,secondCountry
+                        if Connection[year].has_key((firstCountry,secondCountry)):
+                            Connection[year][(secondCountry,firstCountry)] += 1
+                            Connection[year][(firstCountry,secondCountry)] += 1
+                        
+                        else:
+                            Connection[year][(firstCountry,secondCountry)] = 1
+                            Connection[year][(secondCountry,firstCountry)] = 1
+            
+        if sumPaperNum.has_key(year):
+            sumPaperNum[year] += 1
+        else:
+            sumPaperNum[year] = 1.0
+
+        for eachCon in tmpCountryList:
+            if countrySum[year].has_key(eachCon):
+                countrySum[year][eachCon] += tmpCountryList[eachCon]
+            else:
+                countrySum[year][eachCon] = tmpCountryList[eachCon]
+    #print countrySum   
+
+    #print Connection
+
+    """
+        save data to the database
+    """
+
+
+    #create the jounal  and journalName is 
+    for element in Connection:
+        dept = Department(
+            image_url = journalName,
+            collaboration = len(Connection[element]),
+            label = element+"_"+journalName,
+            Total = len(Connection[element]),
+            schlId = schoolCollection[element],
+            school = element,
+            uploadTime = timezone.now(),
+            uploadUser = "dai"
+        )
+        dept.save()
+        '''
+            save the country in every journal
+        '''
+        libName2Id = {}
+        for eachCon in countrySum[element]:
+            if countrySum[element][eachCon] < 10:
+                continue
+            lib = Library(
+                name = eachCon+"_"+journalName+"_"+element,
+                label = eachCon+"_"+journalName+"_"+element,
+                uniqueID = eachCon,
+                fullname = eachCon+"_"+journalName+"_"+element,
+                deptId = dept.id,
+                department = dept.label,
+                uploadTime = timezone.now(),
+                uploadUser = "dai"
+            )
+            lib.save()
+            libName2Id[lib.uniqueID] = lib.id
+        '''
+            save the links between every two countries
+        '''
+        for eachLink in Connection[element]:
+            if countrySum[element][eachLink[0]] < 10 or countrySum[element][eachLink[1]] < 10:
+                continue
+
+            liblink = LibLink(
+                originUid = libName2Id[eachLink[0]],
+                endUid = libName2Id[eachLink[1]],
+                originLabel = eachLink[0],
+                endLabel = eachLink[1],
+                weight = Connection[element][eachLink],
+                uploadTime = timezone.now(),
+                uploadUser = "dai"
+            )
+            liblink.save()
+
+
+    """
+        save the link between journal 
+    """
+    isFirst = 1
+    for element in Connection:
+
+        presentProperty = int(100*sumCoPaperNum[element]/sumPaperNum[element])
+        #print presentProperty
+        presentObject = Department.objects.get(label=element+"_"+journalName)
+        singleYear = Department.objects.filter(label=element).update(Total = presentProperty)
+        if isFirst == 0 :
+            #print presentObject,lastObject
+            if lastProperty > presentProperty:
+                weight = 200
+            else:
+                weight = 20
+
+            deptLink = DeptLink(
+                originUid = lastObject.id,
+                endUid = presentObject.id,
+                originLabel = lastObject.label,
+                endLabel = presentObject.label,
+                weight = weight,
+                uploadTime = timezone.now(),
+                uploadUser = "dai"
+            )
+            deptLink.save()
+        else:
+            isFirst = 0
+        
+        lastProperty = presentProperty
+        lastObject = presentObject
+
