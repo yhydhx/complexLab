@@ -15,8 +15,12 @@ urlpatterns = patterns('',
 	url(r'^dept/(?P<method>\w+)/(?P<Oid>\w*)$', views.dept,name ='dept'),
 	url(r'^schl/(?P<method>\w+)/(?P<Oid>\w*)$', views.schl,name ='schl'),
     url(r'^lib/(?P<method>\w+)/(?P<Oid>\w*)$', views.lib,name ='lib'),
+    url(r'^map/(?P<method>\w+)/(?P<Oid>\w*)$', views.mapGraph,name ='mapGraph'),
 
     
+    url(r'^carMap$', views.carMap,name ='carMap'),
+    url(r'^gethint$', views.gethint,name ='gethint'),
+    url(r'^getCarInfo$', views.getCarInfo,name ='getCarInfo'),
 
     #file operation 
     url(r'^addImage$', views.addImage,name ='addImage'),
@@ -31,6 +35,5 @@ urlpatterns = patterns('',
     url(r'^demo$', views.demo,name ='demo'),
     url(r'^parseData$', views.parseData,name ='parseData'),
     (r'^img/(?P<path>.*)','django.views.static.serve',{'document_root':settings.UPLOAD_PATH}), 
-
-
+    url(r'^saveDataInMongo/(?P<day>\w+)/$', views.saveDataInMongo,name ='saveDataInMongo'),
 )

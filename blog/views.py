@@ -10,7 +10,7 @@ from complexLab.models import *
 import datetime
 from django.utils import timezone
 from django.conf import settings
-import hashlib,time,re
+import hashlib,time,re,json
 
 
 '''def index(request):
@@ -477,6 +477,8 @@ def lib(request,method,Oid):
         return HttpResponse('没有该方法')
 
 
+def mapGraph(request,method,Oid):
+    return render(request,"blog/map.html")
 
 ##################################################################################################
 #  file operation 
@@ -1070,3 +1072,71 @@ def saveNodesAndLinks(fileName,journalName,schoolCollection):
         lastProperty = presentProperty
         lastObject = presentObject
 
+def saveDataInMongo(request,day):
+    if len(day) == 1:
+        day = '0'+str(day)
+    filename = "/home/jupiter/Documents/x201408"+str(day)+".txt"
+    process(filename)
+    print "file "+filename + " complete"
+    print "------------------------------"
+
+    return HttpResponse("finished");
+def process(filename):
+    try:
+        originFile = file(filename)
+    except:
+        print filename+" could not open"
+        return
+    
+    count = 0
+    for element in originFile:
+        count += 1
+        if count % 1000000 == 0:
+            print filename,":   ",count*100.0/75000000,'%'
+        if element[0] != ",":
+            Info = element.split(",")
+            try:
+                cTime = datetime.datetime.strptime(Info[1],'%Y/%m/%d %H:%M:%S')
+            except:
+                continue
+
+            trans = Trans(
+                    label = Info[0],
+                    cTime  = cTime,
+                    longitude = Info[2],
+                    latitude = Info[3],
+                    isService = Info[4],
+                )
+            trans.save()
+
+def carMap(request):
+    return render(request,'blog/carMap.html')
+
+def gethint(request):
+    hint = request.GET.get("q")
+    labels = Label.objects.filter(label__startswith=hint)[0:10]
+    cars  = []
+    for element in labels:
+        if not element.label in cars:
+            cars.append(element.label)
+
+    return HttpResponse(",".join(cars))
+
+def getCarInfo(request):
+    label ="A-TA019"#request.GET.get("label")
+    Info = {}
+    Info['data'] = {}
+    carInfo = Trans.objects.filter(label=label)
+    for element in carInfo:
+        ctime = element.cTime.strftime("%Y-%m-%d")
+        
+        if Info['data'].has_key(ctime):
+            Info['data'][ctime].append([element.longitude,element.latitude])
+        else:
+            Info['data'][ctime] = [[element.longitude,element.latitude]]
+    Info['date'] = []
+    for element in Info['data']:
+        Info['date'].append(element)
+    Info['date'] = sorted(Info['date'])
+    
+    return HttpResponse(json.dumps(Info))

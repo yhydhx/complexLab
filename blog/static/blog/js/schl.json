@@ -23,27 +23,32 @@
 		{
 			"source":0,
 			"target":1,
-			"weight":2000
+			"weight":123
 		},
 		{
 			"source":1,
 			"target":2,
-			"weight":2000
+			"weight":23
 		},
 		{
 			"source":2,
 			"target":3,
-			"weight":2000
+			"weight":45
 		},
 		{
 			"source":0,
 			"target":2,
-			"weight":2000
+			"weight":123
 		},
 		{
 			"source":0,
 			"target":3,
-			"weight":2000
+			"weight":54
+		},
+		{
+			"source":1,
+			"target":3,
+			"weight":12
 		}
 	],
 	"multigraph": false

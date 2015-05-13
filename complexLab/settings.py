@@ -56,7 +56,20 @@ WSGI_APPLICATION = 'complexLab.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+#onServer
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django_mongodb_engine',
+        'NAME': "lab",
+        'USER': '',
+        'PASSWORD' : '',
+        'HOST' : '192.168.1.100',
+        'PORT' : '',
+    }
+}
+
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django_mongodb_engine',
@@ -67,7 +80,7 @@ DATABASES = {
         'PORT' : '27000',
     }
 }
-
+'''
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 

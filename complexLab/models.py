@@ -81,3 +81,15 @@ class User(models.Model):
 class Admin(models.Model):
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
+
+class Trans(models.Model):
+    label = models.CharField(max_length=100)
+    cTime = models.DateTimeField()
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+    isService = models.BooleanField()
+    
+        
+        
+class Label(models.Model):
+    label = models.CharField(max_length=50)
