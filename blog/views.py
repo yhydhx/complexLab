@@ -1112,6 +1112,12 @@ def process(filename):
 def carMap(request):
     return render(request,'blog/carMap.html')
 
+def carMapDynamic(request,map_id):
+    if map_id == '1':
+        return render(request,'blog/carMapDynamic.html')
+    elif map_id == '2':
+        return render(request,'blog/carMapTest.html')
+
 def gethint(request):
     hint = request.GET.get("q")
     labels = Label.objects.filter(label__startswith=hint)[0:10]
@@ -1123,17 +1129,73 @@ def gethint(request):
     return HttpResponse(",".join(cars))
 
 def getCarInfo(request):
-    label ="A-TA019"#request.GET.get("label")
+    label =request.GET.get("label")
+    print label
+
     Info = {}
     Info['data'] = {}
-    carInfo = Trans.objects.filter(label=label)
+    if label[0] == 'A':
+        carInfo = Trans.objects.filter(label=label)[1:1000]
+    else:
+        carInfo = Bus.objects.filter(label=label)
     for element in carInfo:
-        ctime = element.cTime.strftime("%Y-%m-%d")
+        try:
+            ctime = element.cTime.strftime("%Y-%m-%d")
+        except:
+            print element.cTime
         
         if Info['data'].has_key(ctime):
-            Info['data'][ctime].append([element.longitude,element.latitude])
+            Info['data'][ctime].append([float(element.longitude),float(element.latitude)])
         else:
-            Info['data'][ctime] = [[element.longitude,element.latitude]]
+            Info['data'][ctime] = [[float(element.longitude),float(element.latitude)]]
+    Info['date'] = []
+    for element in Info['data']:
+        Info['date'].append(element)
+    Info['date'] = sorted(Info['date'])
+    
+    return HttpResponse(json.dumps(Info))
+
+def getCarTest(request):
+    label = 'A-TD777' #request.GET.get("label")
+    print label
+
+    '''
+        input : label
+        output :
+            carData{
+                'date': [**,**]
+                'speed' : [**,**]
+                'direction' : [**,**]
+            }
+    '''
+    Info = {}
+    Info['data'] = {}
+    if label[0] == 'A':
+        carInfo = Trans.objects.filter(label=label).order_by('cTime')
+    else:
+        carInfo = Bus.objects.filter(label=label).order_by('cTime')
+    for element in carInfo:
+        try:
+            ctime = element.cTime.strftime("%Y-%m-%d")
+            currentTime  = str(element.cTime)
+            timeArray = time.strptime(currentTime, "%Y-%m-%d %H:%M:%S")
+            timestamp = int(time.mktime(timeArray))
+            #print element.cTime
+            #print timestamp
+        except:
+            print element.cTime
+            print 'error'
+        if Info['data'].has_key(ctime):
+            timeInterval = float(timestamp - lastTime)
+            if timeInterval == 0:
+                continue
+            Info['data'][ctime]['location'].append([float(element.longitude),float(element.latitude)])
+            Info['data'][ctime]['timestamp'].append(timeInterval)
+        else:
+            Info['data'][ctime] = {}
+            Info['data'][ctime]['location'] = [[float(element.longitude),float(element.latitude)]]
+            Info['data'][ctime]['timestamp'] = []
+        lastTime = timestamp
     Info['date'] = []
     for element in Info['data']:
         Info['date'].append(element)

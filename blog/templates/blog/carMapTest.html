@@ -1,0 +1,514 @@
+{% load staticfiles %}
+
+<html lang="en-US" dir="ltr"><head>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+  <!--[if lt IE 9]><script src="/assets/html5shiv-d41742a18274b0700292f6237ac3c948.js"></script><![endif]-->
+  <link rel="stylesheet" media="only screen and (max-width:721px)" href="http://www.openstreetmap.org/assets/small-ltr-80190708dad1acd38fa9c8e41ebae444.css">
+  <link rel="stylesheet" media="screen and (min-width: 722px)" href="http://www.openstreetmap.org/assets/large-ltr-dc625e347628a2faeda11137303a6976.css">
+  <link rel="stylesheet" media="print" href="http://www.openstreetmap.org/assets/print-ltr-ccc07ecec7aa2fbbf273edd1f84df917.css">
+  <link rel="stylesheet" media="screen, print" href="http://www.openstreetmap.org/assets/leaflet-all-b7bfe2be5657e02e7913c392675608bc.css">
+  <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="http://openlayers.org/en/v3.5.0/css/ol.css" type="text/css">
+  <script src="http://openlayers.org/en/v3.5.0/build/ol.js"></script>
+
+  <title>OpenStreetMap</title>
+  <style type="text/css">
+  .div-a{position:relative; z-index: 10}
+  .div-b{position:absolute; left:200px; top:20; z-index: 100}
+  </style>
+</head>
+
+  <body class="map-layout">
+    <header class="closed">
+      <h1>
+        <a href="http://www.openstreetmap.org/#map=4/47.61/102.92" class="geolink">
+          OpenStreetMap
+        </a>
+      </h1>
+      <a href="http://www.openstreetmap.org/note/351328#" id="menu-icon"></a>
+      <nav class="primary">
+
+
+
+        <ul>
+          <li id="edit_tab" class="dropdown disabled" data-original-title="Zoom in to edit the map" title="">
+            
+            <ul class="dropdown-menu">
+                <li>
+                  <a data-editor="remote" class="geolink editlink" href="http://www.openstreetmap.org/edit?editor=remote#map=4/47.61/102.92">Edit with Remote Control (JOSM or Merkaartor)</a>
+                </li>
+            </ul>
+          </li>
+          <li id="history_tab" class="">
+            <a class="tab geolink" href="http://www.openstreetmap.org/history#map=4/47.61/102.92">History</a>
+          </li>
+          <li id="export_tab" class="">
+            <a class="tab geolink" href="http://www.openstreetmap.org/export#map=4/47.61/102.92">Export</a>
+          </li>
+        </ul>
+      </nav>
+      <nav class="secondary">
+        <ul>
+          <li class="compact-hide "><a href="http://www.openstreetmap.org/traces">GPS Traces</a></li>
+          <li class="compact-hide "><a href="http://www.openstreetmap.org/diary">User Diaries</a></li>
+          <li class="compact-hide "><a href="http://www.openstreetmap.org/copyright">Copyright</a></li>
+          <li class="compact-hide "><a href="http://www.openstreetmap.org/help">Help</a></li>
+          <li class="compact-hide "><a href="http://www.openstreetmap.org/about">About</a></li>
+          <li id="compact-secondary-nav" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="http://www.openstreetmap.org/note/351328#">More <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class=""><a href="http://www.openstreetmap.org/traces">GPS Traces</a></li>
+              <li class=""><a href="http://www.openstreetmap.org/diary">User Diaries</a></li>
+              <li class=""><a href="http://www.openstreetmap.org/help">Help</a></li>
+              <li class=""><a href="http://www.openstreetmap.org/about">About</a></li>
+              <li class=""><a href="http://www.openstreetmap.org/copyright">Copyright</a></li>
+            </ul>
+          </li>
+        </ul>
+
+      </nav>
+    </header>
+
+    <div id="content" class="">
+      <div id="sidebar">
+        <div class="search_forms">
+          <form method="GET" action="http://www.openstreetmap.org/search" class="search_form">
+            <a class="button switch_link" title="Find directions between two points" href="http://www.openstreetmap.org/directions"><img class="button" src="./OpenStreetMap _ Note_ 351328_files/directions-15f9494695b42186bd6414b5d99731fd.png" alt="Directions"></a>
+            <input type="submit" name="commit" value="Go" class="float">
+            <div class="query_wrapper">
+              <input type="text" name="query" id="query" placeholder="Search" autofocus="autofocus" class="overflow">
+              <a class="describe_location" title="Describe the current location using the search engine" href="http://www.openstreetmap.org/note/351328#">Where am I?</a>
+            </div>
+          </form>
+        </div>
+        
+
+        <div id="sidebar_content">
+            <h4>car label</h4><input placeholder="taxi label" name="KProvince" id="KProvince"  onkeyup="ttt();"  onkeydown="if(event.keyCode==13){refresh(this.value);}">
+            <input type='button' value='Submit'>
+            <div id="search_suggest" style=" width: 155px;  z-index:1;left:185px"> 
+            </div> 
+            <div id="sidebar_loader" style="display: none;">
+                <img alt="Loading..." class="loader" src="img/image/searching.gif">
+            </div>
+            <div id="car_date" align='center'>
+
+            </div>
+        </div>
+      </div>
+
+ 
+    
+      <div id="map" class='div-a' tabindex="2" class="leaflet-container leaflet-fade-anim">
+      </div>
+
+
+    </div>
+<script>
+
+
+
+var circles = []
+var circleTimeStamp = []
+//global arr
+dynamicArr = []
+
+var image = new ol.style.Circle({
+  radius: 5,
+  fill: null,
+  stroke: new ol.style.Stroke({color: 'red', width: 1})
+});
+
+var map = new ol.Map({
+  layers: [
+    new ol.layer.Tile({
+      
+      source: new ol.source.OSM()
+    })
+  ],
+  target: 'map',
+  controls: ol.control.defaults({
+    attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+      collapsible: false
+    })
+  }),
+  view: new ol.View({
+    //projection: 'EPSG:4326',
+    center: [0,0],//ol.proj.transform([104.044745, 30.618892],'EPSG:4326','EPSG:3857'),
+    zoom: 2
+  })
+});
+
+
+var styles = {
+  'Point': [new ol.style.Style({
+    image: image
+  })],
+  'LineString': [new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'red',
+      width: 1
+    })
+  })],
+  'MultiLineString': [new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'green',
+      width: 1
+    })
+  })],
+  'MultiPoint': [new ol.style.Style({
+    image: image
+  })],
+  'MultiPolygon': [new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'yellow',
+      width: 1
+    }),
+    fill: new ol.style.Fill({
+      color: 'rgba(255, 255, 0, 0.1)'
+    })
+  })],
+  'Polygon': [new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'blue',
+      lineDash: [4],
+      width: 3
+    }),
+    fill: new ol.style.Fill({
+      color: 'rgba(0, 0, 255, 0.1)'
+    })
+  })],
+  'GeometryCollection': [new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'magenta',
+      width: 2
+    }),
+    fill: new ol.style.Fill({
+      color: 'magenta'
+    }),
+    image: new ol.style.Circle({
+      radius: 10,
+      fill: null,
+      stroke: new ol.style.Stroke({
+        color: 'magenta'
+      })
+    })
+  })],
+  'Circle': [new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'red',
+      width: 2
+    }),
+    fill: new ol.style.Fill({
+      color: 'rgba(255,0,0,0.2)'
+    })
+  })]
+};
+
+var styleFunction = function(feature, resolution) {
+  return styles[feature.getGeometry().getType()];
+};
+
+
+function removeTopLayer(){
+  var layers = map.getLayers();
+  layers.pop();
+}
+</script>
+
+
+<script type="text/javascript">
+  var carData;
+  var carDate;
+  var layerNum = 0;
+  var layerArr = [];
+  var set = $("#KProvince").offset();
+  var input = document.getElementById("search_suggest");
+  input.style.left = set['left'];
+  input.style.top = set['top']-20;
+  function refresh(value){
+    $("#sidebar_loader")[0].style.display=""
+    $("#car_date")[0].innerHTML = ""
+    $.ajax({
+        type: "get",
+        url: "getCarTest",
+        dataType: 'json',
+        data: "Method_Name=test&label="+value,
+        success:function(name){
+          carData = name['data']
+          carDate = name['date']
+          $("#sidebar_loader")[0].style.display="none";
+          var checkBox = $("#car_date")[0];
+          checkString = "";
+          console.log(carDate)
+          for (var i = 0;i < carDate.length;i++){
+            checkString += "<input type='checkbox' onclick=showCarGIS(this.value) value='"+carDate[i]+"'>"+carDate[i]+"</br>";
+          }
+          checkBox.innerHTML = checkString;
+          init(carDate,carData);
+        }
+    }); 
+  }
+
+  function showCarGIS(str){
+    var checkContainer = $("#car_date")[0]
+    children = checkContainer.children
+    for (var i =0; i <children.length; i+=2){
+      if (children[i].value == str){
+        if (children[i].checked == true){
+          drawLines(str);
+        }else{
+          clearLine(str);
+        }
+      }
+    }
+
+  }
+function clearLine(str){
+  for (var i=0;i<carDate.length;i++){
+    if (carDate[i] == str){
+      dynamicArr[i] =0;
+      break;
+    }
+  }
+  map.getLayers().remove(layerArr[i])
+  console.log("delete One")
+
+}
+
+function drawLines(str){
+  for (var i=0;i<carDate.length;i++){
+    if (carDate[i] == str){
+      dynamicArr[i] =1;
+      break;
+    }
+  }
+  map.addLayer(layerArr[i]);
+}
+
+
+function  init(carDate,carData){
+  for (var d =0;d< carDate.length; d++){
+    var points = carData[carDate[d]]['location'];
+    for (var i =0;i< points.length; i++){
+      tmpX = points[i][0]
+      tmpY = points[i][1]
+      points[i] = ol.proj.transform([tmpX,tmpY],'EPSG:4326','EPSG:3857');
+    }
+    circles[d] = points
+    dynamicArr[d] =0
+    circleTimeStamp[d] = carData[carDate[d]]['timestamp'];
+
+    var geojsonObject = {
+      'type': 'FeatureCollection',
+      'crs': {
+        'type': 'name',
+        'properties': {
+          'name': 'EPSG:3857'
+        }
+      },
+      'features': [
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': points
+          }
+        },
+      ]
+    };
+
+    var vectorSource = new ol.source.Vector({
+      features: (new ol.format.GeoJSON()).readFeatures(geojsonObject)
+    });
+
+    layerArr[d] = new ol.layer.Vector({
+      source: vectorSource,
+      style: styleFunction
+    });
+  }
+}
+
+var imageStyle = new ol.style.Circle({
+  radius: 2,
+  snapToPixel: false,
+  fill: new ol.style.Fill({color: 'red'}),
+  stroke: new ol.style.Stroke({color: 'red', width: 0})
+});
+
+/*new ol.style.Style({
+    image: new ol.style.RegularShape({
+      fill: fill,
+      stroke: stroke,
+      points: 3,
+      radius: 10,
+      rotation: Math.PI / 4,
+      angle: 0
+    })
+  })*/
+
+/*
+  show three hundred and sixty styles 
+  and different colors 
+*/
+
+
+var headInnerImageStyle = new ol.style.Style({
+  image: new ol.style.Circle({
+    radius: 2,
+    snapToPixel: false,
+    fill: new ol.style.Fill({color: 'rgba(0,255,0,0.1)'})
+  })
+});
+
+var headOuterImageStyle = new ol.style.Circle({
+  radius: 5,
+  snapToPixel: false,
+  fill: new ol.style.Fill({color: 'rgba(0,0,255,0.1)'})
+});
+
+var omegaTheta = 10; // Rotation period in ms
+var stroke = new ol.style.Stroke({color: 'red', width: 0})
+
+
+function getOriginStyle(){
+  console.log((new Date()).valueOf()); 
+
+  originStyle = {}
+  for (var degree = 0 ; degree < 360 ; degree++){
+    originStyle[degree] = {}
+    for (var colorIndex = 222 ; colorIndex < 256; colorIndex ++){
+      greenIndex = 255-colorIndex 
+      colorString = 'rgba('+colorIndex+','+greenIndex+',0,1)';
+      //console.log(colorString)
+      originStyle[degree][colorIndex] = new ol.style.Style({
+        image: new ol.style.RegularShape({
+          fill: new ol.style.Fill({color: colorString}),
+          stroke: new ol.style.Stroke({color: 'black', width: 0}),
+          points: 3,
+          radius: 10,
+          rotation: Math.PI / 180 * degree,
+          angle: 0
+        })
+      });
+    }
+  }
+  console.log((new Date()).valueOf()); 
+  
+  return originStyle
+}
+
+function getSpecificStyle(degree,colorIndex){
+  redIndex = 255-colorIndex 
+  greenIndex = colorIndex
+  colorString = 'rgba('+redIndex+','+greenIndex+',0,1)';
+  //console.log(colorString)
+  specificStyle = new ol.style.Style({
+    image: new ol.style.RegularShape({
+      fill: new ol.style.Fill({color: colorString}),
+      stroke: new ol.style.Stroke({color: 'black', width: 0.000001}),
+      points: 3,
+      radius: 4,
+      rotation: Math.PI / 180 * degree,
+      angle: 0
+    })
+  });
+  return specificStyle
+}
+
+var originStyle = getOriginStyle()
+map.on('postcompose', function(event) {
+  var vectorContext = event.vectorContext;
+  var frameState = event.frameState;
+  //var theta = 2 * Math.PI * frameState.time / omegaTheta;
+  var percent = (frameState.time % omegaTheta)/omegaTheta;
+  var coordinates = [];
+  var i;
+
+  allDataStyle = [];
+  allData = {}
+  speed = {}
+
+  for (var c = 0; c < circles.length; c++){
+    if (dynamicArr[c] == 1){
+      points = circles[c]
+      pointsTime = circleTimeStamp[c]
+
+      for (var i = 0; i < points.length -1; i++){
+        lengthX = (points[i+1][0] - points[i][0]);
+        lengthY = (points[i+1][1] - points[i][1]);
+        tmpX = points[i][0] + (points[i+1][0] - points[i][0]) *percent;
+        tmpY = points[i][1] + (points[i+1][1] - points[i][1]) *percent;
+       
+        singleDegree = Math.ceil(Math.atan2(lengthY, lengthX)/(Math.PI/180))
+        //console.log(singleDegree)
+        //check this degree is exist or not
+        if (allData[singleDegree] == null){
+          allData[singleDegree] = {}
+        }
+        singleSpeed = Math.ceil(Math.sqrt(lengthX * lengthX + lengthY * lengthY) / pointsTime[i] * 10)
+        //singleSpeed = (Math.sqrt(lengthX * lengthX + lengthY * lengthY) / pointsTime[i] )
+        if (singleSpeed == NaN){
+          console.log([points[i],points[i+1]])
+        }
+
+        if (speed[singleSpeed] == null){
+          speed[singleSpeed] = 1;
+        }else{
+          speed[singleSpeed] += 1;
+        }
+        
+
+        if (singleSpeed >= 255){
+          singleSpeed = 255
+        }
+        if (allData[singleDegree][singleSpeed] == null){
+          allDataStyle.push([singleDegree,singleSpeed])
+          allData[singleDegree][singleSpeed] = []
+          allData[singleDegree][singleSpeed].push([tmpX,tmpY])
+        }else{
+          allData[singleDegree][singleSpeed].push([tmpX,tmpY] );  
+        }
+        
+      }
+    }
+  }
+
+  //compete the degree
+
+
+
+  if (allDataStyle == false){
+    return 
+  }
+
+  vectorContext.setImageStyle(imageStyle);
+  vectorContext.drawMultiPointGeometry(
+      new ol.geom.MultiPoint([[0,0],[0,0]]), null);
+
+  
+  for (var i =0; i < allDataStyle.length ; i++){
+    singleDegree = allDataStyle[i][0];
+    singleSpeed = allDataStyle[i][1];
+    var headPoint = new ol.geom.MultiPoint( allData[singleDegree][singleSpeed] )//coordinates[coordinates.length - 1]);
+    var headFeature = new ol.Feature(headPoint);
+    vectorContext.drawFeature(headFeature, getSpecificStyle(singleDegree,singleSpeed));
+//    vectorContext.setImageStyle(headOuterImageStyle);
+    vectorContext.drawMultiPointGeometry(headPoint, null);
+  }
+  
+  map.render();
+});
+
+map.render();
+</script>
+<script src="{% static 'blog/js/gethint.js' %}" type="text/javascript"></script>
+
+
+
+</script>
+</body></html>

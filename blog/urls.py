@@ -19,8 +19,12 @@ urlpatterns = patterns('',
 
     
     url(r'^carMap$', views.carMap,name ='carMap'),
+    url(r'^carMapDynamic(?P<map_id>\w+)$', views.carMapDynamic,name ='carMapDynamic'),
+
+    
     url(r'^gethint$', views.gethint,name ='gethint'),
     url(r'^getCarInfo$', views.getCarInfo,name ='getCarInfo'),
+    url(r'^getCarTest$', views.getCarTest,name ='getCarTest'),
 
     #file operation 
     url(r'^addImage$', views.addImage,name ='addImage'),

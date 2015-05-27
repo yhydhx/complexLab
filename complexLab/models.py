@@ -84,6 +84,13 @@ class Admin(models.Model):
 
 class Trans(models.Model):
     label = models.CharField(max_length=100)
+    cTime = models.DateTimeField(null=True)
+    longitude = models.FloatField(null=True)
+    latitude = models.FloatField(null=True)
+    isService = models.BooleanField(null=True)
+    
+class Bus(models.Model):
+    label = models.CharField(max_length=100)
     cTime = models.DateTimeField()
     longitude = models.FloatField()
     latitude = models.FloatField()
