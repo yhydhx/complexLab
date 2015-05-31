@@ -98,6 +98,8 @@
             <div id="car_date" align='center'>
 
             </div>
+            <div id="car_info">
+            </div>
         </div>
       </div>
 
@@ -116,7 +118,7 @@ var circles = []
 var circleTimeStamp = []
 //global arr
 dynamicArr = []
-
+dynamicDate = []
 var image = new ol.style.Circle({
   radius: 5,
   fill: null,
@@ -224,7 +226,9 @@ function removeTopLayer(){
 <script type="text/javascript">
   var carData;
   var carDate;
+  var carpTime = [];
   var layerNum = 0;
+  var pauseButton = 0;
   var layerArr = [];
   var set = $("#KProvince").offset();
   var input = document.getElementById("search_suggest");
@@ -293,6 +297,7 @@ function drawLines(str){
 
 function  init(carDate,carData){
   for (var d =0;d< carDate.length; d++){
+    carpTime[d] = carData[carDate[d]]['ptime'];
     var points = carData[carDate[d]]['location'];
     for (var i =0;i< points.length; i++){
       tmpX = points[i][0]
@@ -403,6 +408,21 @@ function getOriginStyle(){
   return originStyle
 }
 
+function showCarInfo(data,styles,currentTimes){
+  var dataLength = styles.length;
+  tableValue = "<table>    <tbody style='margin: 0 auto' align='center' >        <thead>        <tr>                <th>Date</th>          <th>degree</th>      <th>&nbsp;&nbsp;speed</th>                                <th>time</th>           </tr>       </thead> "
+  for(var i = 0;i < dataLength;i++){
+    tableValue += "<tr>"
+    tableValue += "<td>"+dynamicDate[i]+"</td>";
+    tableValue += "<td>"+styles[i][0] + "</td>";
+    tableValue += "<td>"+styles[i][1] + "</td>";
+    tableValue += "<td>"+currentTimes[i] + "</td>";
+    tableValue += "</tr>"
+  }
+  tableValue +="</tbody></table>"
+  $("#car_info")[0].innerHTML = tableValue
+
+}
 function getSpecificStyle(degree,colorIndex){
   redIndex = 255-colorIndex 
   greenIndex = colorIndex
@@ -415,7 +435,7 @@ function getSpecificStyle(degree,colorIndex){
       points: 3,
       radius: 10,
       rotation: Math.PI / 180 * degree,
-      angle: 0
+      angle: 10
     })
   });
   return specificStyle
@@ -437,18 +457,22 @@ map.on('postcompose', function(event) {
   allDataStyle = [];
   allData = {}
   speed = {}
-
+  dynamicDate = []
+  allPTime = []
   for (var c = 0; c < circles.length; c++){
     if (dynamicArr[c] == 1){
+      dynamicDate.push(carDate[c]);
       points = circles[c]
       pointsLen = circles[c].length  - 2
       modPOintPosition = Math.ceil((frameState.time / 100) % pointsLen)
       modPoint = circles[c][modPOintPosition]
+      pTime = carpTime[c][modPOintPosition]
+      
       modPointNext = circles[c][modPOintPosition+1]
       //only show one point
       points = [modPoint , modPointNext]
-      pointsTime = circleTimeStamp[c][modPOintPosition]
-
+      pointsTime = [circleTimeStamp[c][modPOintPosition]]
+      allPTime.push(pTime)
       for (var i = 0; i < points.length -1; i++){
         lengthX = (points[i+1][0] - points[i][0]);
         lengthY = (points[i+1][1] - points[i][1]);
@@ -456,6 +480,9 @@ map.on('postcompose', function(event) {
         tmpY = points[i][1] + (points[i+1][1] - points[i][1]) *percent -yChange;
        
         singleDegree = Math.ceil(Math.atan2(lengthY, lengthX)/(Math.PI/180))
+        if (singleDegree < 0){
+          singleDegree += 360;
+        }
         //console.log(singleDegree)
         //check this degree is exist or not
         if (allData[singleDegree] == null){
@@ -484,7 +511,7 @@ map.on('postcompose', function(event) {
         }else{
           allData[singleDegree][singleSpeed].push([tmpX,tmpY] );  
         }
-        
+        showCarInfo(allData,allDataStyle,allPTime)
       }
     }
   }

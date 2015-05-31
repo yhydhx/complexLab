@@ -1156,7 +1156,7 @@ def getCarInfo(request):
     return HttpResponse(json.dumps(Info))
 
 def getCarTest(request):
-    label = 'A-TD777' #request.GET.get("label")
+    label = request.GET.get("label")
     print label
 
     '''
@@ -1173,10 +1173,14 @@ def getCarTest(request):
     if label[0] == 'A':
         carInfo = Trans.objects.filter(label=label).order_by('cTime')
     else:
+        busFlag = 1
         carInfo = Bus.objects.filter(label=label).order_by('cTime')
+
+    A = ""
     for element in carInfo:
         try:
             ctime = element.cTime.strftime("%Y-%m-%d")
+            ptime = element.cTime.strftime("%H:%M:%S")
             currentTime  = str(element.cTime)
             timeArray = time.strptime(currentTime, "%Y-%m-%d %H:%M:%S")
             timestamp = int(time.mktime(timeArray))
@@ -1189,11 +1193,22 @@ def getCarTest(request):
             timeInterval = float(timestamp - lastTime)
             if timeInterval == 0:
                 continue
-            Info['data'][ctime]['location'].append([float(element.longitude),float(element.latitude)])
+            
+            if busFlag == 1:
+                Info['data'][ctime]['location'].append([float(element.latitude),float(element.longitude)])
+            else:
+                Info['data'][ctime]['location'].append([float(element.longitude),float(element.latitude)])
+
+            Info['data'][ctime]['ptime'].append(ptime)
             Info['data'][ctime]['timestamp'].append(timeInterval)
         else:
             Info['data'][ctime] = {}
-            Info['data'][ctime]['location'] = [[float(element.longitude),float(element.latitude)]]
+            if busFlag == 1:
+                Info['data'][ctime]['location'] = [[float(element.latitude),float(element.longitude)]]
+            else:
+                Info['data'][ctime]['location'] = [[float(element.longitude),float(element.latitude)]]
+
+            Info['data'][ctime]['ptime'] = [ptime]
             Info['data'][ctime]['timestamp'] = []
         lastTime = timestamp
     Info['date'] = []
@@ -1201,4 +1216,5 @@ def getCarTest(request):
         Info['date'].append(element)
     Info['date'] = sorted(Info['date'])
     
+    #return HttpResponse(A)
     return HttpResponse(json.dumps(Info))
