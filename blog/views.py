@@ -1218,3 +1218,25 @@ def getCarTest(request):
     
     #return HttpResponse(A)
     return HttpResponse(json.dumps(Info))
+
+
+class fileForm(forms.Form):
+    fileName = forms.FileField()
+
+
+def uploadFileField(request):
+    if request.method == "POST":
+        uf = fileForm(request.POST,request.FILES)
+        if uf.is_valid():
+            #获取表单信息
+            fileName = uf.cleaned_data['fileName']
+            #写入数据库  
+            ff = UploadFile()
+            ff.fileName = fileName
+            ff.save()
+            return HttpResponse('upload ok!')
+        else:
+            pass
+    else:
+        uf = fileForm()
+    return render(request,'blog/uploadFile.html',{'uf':uf})

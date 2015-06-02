@@ -100,3 +100,7 @@ class Bus(models.Model):
         
 class Label(models.Model):
     label = models.CharField(max_length=50)
+
+
+class UploadFile(models.Model):
+    fileName = models.FileField(upload_to = '../complexLab/static/upload/')

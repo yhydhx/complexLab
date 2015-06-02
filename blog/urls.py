@@ -38,6 +38,8 @@ urlpatterns = patterns('',
     url(r'^gnetJs$', views.generateJs,name ='generateJs'),
     url(r'^demo$', views.demo,name ='demo'),
     url(r'^parseData$', views.parseData,name ='parseData'),
+    url(r'^uploadFileField$', views.uploadFileField,name ='uploadFileField'),
+
     (r'^img/(?P<path>.*)','django.views.static.serve',{'document_root':settings.UPLOAD_PATH}), 
     url(r'^saveDataInMongo/(?P<day>\w+)/$', views.saveDataInMongo,name ='saveDataInMongo'),
 )
